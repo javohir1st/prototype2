@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Data</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap">
+    <style>
+        body {
+            background: linear-gradient(135deg, #5f72bd, #9b23ea);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        table {
+            font-family: "Poppins", sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            color: #fff;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: center;
+        }
+
+        th {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+<h2>Weather Data</h2>
+<table id="weather-table">
+    <thead>
+    <tr>
+        <th>City</th>
+        <th>Temperature (°C)</th>
+        <th>Humidity (%)</th>
+    </tr>
+    </thead>
+    <tbody id="weather-data">
+    <!-- Weather data will be dynamically added here -->
+    </tbody>
+</table>
+
+<script>
+    // Fetch weather data from the API
+    fetch('http://localhost:8080/weather')
+        .then(response => response.json())
+        .then(data => {
+            const weatherData = document.getElementById('weather-data');
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                        <td>${item.city}</td>
+                        <td>${item.temp}</td>
+                        <td>${item.humidity}</td>
+                    `;
+                weatherData.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching weather data:', error));
+</script>
+</body>
+</html>
